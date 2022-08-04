@@ -1,0 +1,427 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Welcome to discrete-shocklet-transform’s documentation! &#8212; discrete-shocklet-transform 0.0.1 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="welcome-to-discrete-shocklet-transform-s-documentation">
+<h1>Welcome to discrete-shocklet-transform’s documentation!<a class="headerlink" href="#welcome-to-discrete-shocklet-transform-s-documentation" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+</div>
+<div class="section" id="module-cusplets">
+<span id="shocklet-cusplet-transform"></span><h1>Shocklet / cusplet transform<a class="headerlink" href="#module-cusplets" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="cusplets.classify_cusps">
+<code class="descclassname">cusplets.</code><code class="descname">classify_cusps</code><span class="sig-paren">(</span><em>cc</em>, <em>b=1</em>, <em>geval=False</em><span class="sig-paren">)</span><a class="headerlink" href="#cusplets.classify_cusps" title="Permalink to this definition">¶</a></dt>
+<dd><p>Classifies points as belonging to cusps or not.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>cc</strong> (<em>numpy.ndarray</em>) – numpy array of shape (L, n), the cusplet transform of a time series</li>
+<li><strong>b</strong> (<em>int</em><em> or </em><em>float</em>) – multiplier of the standard deviation.</li>
+<li><strong>geval</strong> (<em>float &gt;= 0</em>) – optional. If geval is an int or float, classify_cusps will return (in addition to the cusps and cusp intensity function) an array of points where the cusp intensity function is greater than geval.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">tuple — (numpy.ndarray of indices of the cusps; numpy.ndarray representing the cusp intensity function) or, if geval is not False, (extrema; the cusp intensity function; array of points where the cusp intensity function is greater than geval)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="cusplets.cusplet">
+<code class="descclassname">cusplets.</code><code class="descname">cusplet</code><span class="sig-paren">(</span><em>arr</em>, <em>kernel</em>, <em>widths</em>, <em>k_args=[]</em>, <em>reflection=0</em>, <em>width_weights=None</em><span class="sig-paren">)</span><a class="headerlink" href="#cusplets.cusplet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implements the discrete cusplet transform.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>arr</strong> (<em>list</em><em>, </em><em>tuple</em><em>, or </em><em>numpy.ndarray</em>) – array of shape (n,) or (n,1). This array should not contain inf-like values. The transform will still be computed but infs propagate. Nan-like values will be linearly interpolated, which is okay for subsequent time-based analysis but will introduce ringing in frequency-based analyses.</li>
+<li><strong>kernel</strong> (<em>callable</em>) – kernel function. Must take an integer L &gt; 0 as an argument and any number of additional, nonkeyword arguments, and returns a numpy array of shape (L,) that implements the kernel. The returned array should sum to zero; use the zero_norm function for this.</li>
+<li><strong>widths</strong> (<em>iterable</em>) – iterable of integers that specify the window widths (L above). Assumed to be in increasing order; if widths is not in increasing order the results will be garbage.</li>
+<li><strong>k_args</strong> (<em>list</em><em> or </em><em>tuple</em>) – arguments for the kernel function.</li>
+<li><strong>reflection</strong> (<em>int</em>) – integer n evaluates to n %4, element of the reflection group that left-multiplies the kernel function. Default is 0 (identity element).</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">tuple – (numpy array of shape (L, n) – the cusplet transform, k – the calculated kernel function)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="cusplets.cusplet_parameter_sweep">
+<code class="descclassname">cusplets.</code><code class="descname">cusplet_parameter_sweep</code><span class="sig-paren">(</span><em>arr</em>, <em>kernel</em>, <em>widths</em>, <em>k_args</em>, <em>reflection=0</em>, <em>width_weights=None</em>, <em>k_weights=None</em><span class="sig-paren">)</span><a class="headerlink" href="#cusplets.cusplet_parameter_sweep" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sweeps over values of parameters (kernel arguments) in the discrete cusplet transform.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>arr</strong> (<em>list</em><em>, </em><em>tuple</em><em>, or </em><em>numpy.ndarray</em>) – numpy array of shape (n,) or (n,1), time series</li>
+<li><strong>kernel</strong> (<em>callable</em>) – kernel function. Must take an integer L &gt; 0 as an argument and any number of additional, nonkeyword arguments, and returns a numpy array of shape (L,) that implements the kernel. The returned array should sum to zero; use the zero_norm function for this.</li>
+<li><strong>widths</strong> (<em>iterable</em>) – iterable of integers that specify the window widths (L above). Assumed to be in increasing order; if widths is not in increasing order the results will be garbage.</li>
+<li><strong>k_args</strong> (<em>list</em><em> or </em><em>tuple of lists</em><em> or </em><em>tuples</em>) – iterable of iterables of arguments for the kernel function. Each top-level iterable is treated as a single parameter vector.</li>
+<li><strong>reflection</strong> (<em>int</em>) – integer n evaluates to n %4, element of the reflection group that left-multiplies the kernel function. Default is 0 (identity element).</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">numpy.ndarray – numpy array of shape (L, n, len(k_args)), the cusplet transform</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="cusplets.inverse_cusplet">
+<code class="descclassname">cusplets.</code><code class="descname">inverse_cusplet</code><span class="sig-paren">(</span><em>cc</em>, <em>kernel</em>, <em>widths</em>, <em>k_args=[]</em>, <em>reflection=0</em>, <em>width_ind=0</em><span class="sig-paren">)</span><a class="headerlink" href="#cusplets.inverse_cusplet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the inverse of the discrete cusplet / shocklet transform.</p>
+<p>The cusplet transform is overcomplete, at least in theory. Since each row of the cusplet transform is 
+a cross-correlation between the kernel function and the time series, it is—again, in theory—possible to recover 
+the original time series of data from any row of the cusplet transform and the appropriate kernel. 
+A row of the cusplet transform, denoted by c, is defined by c = Ax, where A is the cross-correlation matrix 
+constructed from kernel k. 
+If A is invertible then we trivially have x = A^{-1}c.
+In theory, the full inverse transform using the full cusplet transform C is given by 
+x = langle A_w^{-1}c_wrangle_{w}, where by w we denote the appropriate kernel width parameter.</p>
+<p>We note that there is really no reason to ever use this function. Unlike other transforms, 
+it is <em>highly</em> unlikely that a user will be confronted with some arbitrary cusplet transform and need to 
+recover the raw data from it. 
+In other words, one often is confronted with frequency data corresponding to a Fourier transform and needs to 
+extract the original time series from it, but the cusplet transform is intended to be a data analysis tool and 
+so the data should always be accessible to the user.</p>
+<p>In the practical implementation here,
+the user can specify which row of the cusplet transform to use. By default we will use the first row of the 
+transform since this will introduce the fewest numerical errors in the inversion.
+This is true because the convolution operations involves fewer elements in each sum;
+the convolution matrix will have lower bandwidth and hence will be easier to invert.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>cc</strong> (<em>numpy.ndarray</em>) – the cusplet transform array, shape W x T</li>
+<li><strong>kernel</strong> (<em>callable</em>) – kernel function. Must take an integer L &gt; 0 as an argument and any number of additional, nonkeyword arguments, and returns a numpy array of shape (L,) that implements the kernel. The returned array should sum to zero; use the zero_norm function for this.</li>
+<li><strong>widths</strong> (<em>iterable</em>) – iterable of integers that specify the window widths (L above). Assumed to be in increasing order; if widths is not in increasing order the results will be garbage.</li>
+<li><strong>k_args</strong> (<em>list</em><em> or </em><em>tuple</em>) – arguments for the kernel function.</li>
+<li><strong>reflection</strong> (<em>int</em>) – integer n evaluates to n %4, element of the reflection group that left-multiplies the kernel function. Default is 0 (identity element).</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">numpy.ndarray – the reconstructed original time series. This time series will have (roughly) the same functional form as the original, but it is not guaranteed that its location and scale will be the same.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="cusplets.make_components">
+<code class="descclassname">cusplets.</code><code class="descname">make_components</code><span class="sig-paren">(</span><em>indicator</em>, <em>cusp_points=None</em>, <em>scan_back=0</em><span class="sig-paren">)</span><a class="headerlink" href="#cusplets.make_components" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get individual windows from array of indicator indices.</p>
+<p>Takes cusp indicator function and returns windows of contiguous cusp-like behavior. 
+If an array of hypothesized deterministic peaks of cusp-like behavior is passed, 
+thins these points so that there is at most one point per window.
+The scan_back parameter connects contiguous windows if they are less than or equal to 
+scan_back indices from each other.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>indicator</strong> (<em>list</em>) – array of the points where the cusp intensity function exceeds some threshold</li>
+<li><strong>cusp_points</strong> (<em>list</em><em> or </em><em>numpy.ndarray</em>) – optional, array of points that denote the hypothesized deterministic peaks of cusps</li>
+<li><strong>scan_back</strong> (<em>int &gt;= 0</em>) – number of indices to look back. If cusp windows are within scan_back indices of each other, they will be connected into one contiguous window.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">list – the contiguous cusp windows; or, if cusp_points is not None, tuple – (the contiguous cusp windows, the thinned cusp points)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="cusplets.matrix_cusplet">
+<code class="descclassname">cusplets.</code><code class="descname">matrix_cusplet</code><span class="sig-paren">(</span><em>arr</em>, <em>kernel</em>, <em>widths</em>, <em>k_args=[]</em>, <em>reflection=0</em>, <em>width_weights=None</em><span class="sig-paren">)</span><a class="headerlink" href="#cusplets.matrix_cusplet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the cusplet transform using matrix multiplication.</p>
+<p>This method is provided for the sake only of completeness; it is orders of magnitude 
+slower than <code class="docutils literal notranslate"><span class="pre">cusplets.cusplet</span></code> and there is no good reason to use it in production.
+You should use <code class="docutils literal notranslate"><span class="pre">cusplets.cusplet</span></code> instead.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>arr</strong> (<em>list</em><em>, </em><em>tuple</em><em>, or </em><em>numpy.ndarray</em>) – array of shape (n,) or (n,1). This array should not contain inf-like values. The transform will still be computed but infs propagate. Nan-like values will be linearly interpolated, which is okay for subsequent time-based analysis but will introduce ringing in frequency-based analyses.</li>
+<li><strong>kernel</strong> (<em>callable</em>) – kernel function. Must take an integer L &gt; 0 as an argument and any number of additional, nonkeyword arguments, and returns a numpy array of shape (L,) that implements the kernel. The returned array should sum to zero; use the zero_norm function for this.</li>
+<li><strong>widths</strong> (<em>iterable</em>) – iterable of integers that specify the window widths (L above). Assumed to be in increasing order; if widths is not in increasing order the results will be garbage.</li>
+<li><strong>k_args</strong> (<em>list</em><em> or </em><em>tuple</em>) – arguments for the kernel function.</li>
+<li><strong>reflection</strong> (<em>int</em>) – integer n evaluates to n %4, element of the reflection group that left-multiplies the kernel function. Default is 0 (identity element).</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">tuple – (numpy array of shape (L, n) – the cusplet transform, None)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="cusplets.max_change">
+<code class="descclassname">cusplets.</code><code class="descname">max_change</code><span class="sig-paren">(</span><em>arr</em><span class="sig-paren">)</span><a class="headerlink" href="#cusplets.max_change" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the difference between the max and min points in an array.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>arr</strong> (<em>a list</em><em> or </em><em>numpy.ndarray</em>) – a time series</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">float – maximum relative change</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="cusplets.max_rel_change">
+<code class="descclassname">cusplets.</code><code class="descname">max_rel_change</code><span class="sig-paren">(</span><em>arr</em>, <em>neg=True</em><span class="sig-paren">)</span><a class="headerlink" href="#cusplets.max_rel_change" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the maximum relative changes in an array (log10).</p>
+<p>One possible choice for a weighting function in cusplet transform.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>arr</strong> (<em>a list</em><em> or </em><em>numpy.ndarray</em>) – a time series for a given word</li>
+<li><strong>neg</strong> – (if true) arr - np.min(arr) + 1</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">float – maximum relative change (log10)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="cusplets.normalize">
+<code class="descclassname">cusplets.</code><code class="descname">normalize</code><span class="sig-paren">(</span><em>arr</em>, <em>stats=False</em><span class="sig-paren">)</span><a class="headerlink" href="#cusplets.normalize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Normalizes an array to have zero mean and unit variance</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>arr</strong> (<em>iterable</em>) – the array</li>
+<li><strong>stats</strong> (<em>bool</em>) – if stats is True, will also return mean and std of array</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">numpy.ndarray – normalized array; or, if stats is True, tuple – (normalized array, mean, std)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="cusplets.setup_corr_mat">
+<code class="descclassname">cusplets.</code><code class="descname">setup_corr_mat</code><span class="sig-paren">(</span><em>k</em>, <em>N</em><span class="sig-paren">)</span><a class="headerlink" href="#cusplets.setup_corr_mat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets up linear operator corresponding to cross correlation.</p>
+<p>The cross-correlation operation can be just viewed as a linear operation from R^K to R^K as 
+Ax = C. The operator A is a banded matrix that represents the rolling add operation that 
+defines cross-correlation. To execute correlation of the kernel with data
+one computes np.dot(A, data).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>k</strong> (<em>numpy.ndarray</em>) – the cross-correlation kernel</li>
+<li><strong>N</strong> (<em>positive int</em>) – shape of data array with which k will be cross-correlated.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">numpy.ndarray – NxN array, the cross-correlation operator</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="cusplets.top_k">
+<code class="descclassname">cusplets.</code><code class="descname">top_k</code><span class="sig-paren">(</span><em>indices</em>, <em>words</em>, <em>k</em><span class="sig-paren">)</span><a class="headerlink" href="#cusplets.top_k" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the top k words by the weighted cusp indicator function</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>indices</strong> (<em>list</em><em> or </em><em>numpy.array</em>) – a list of indicator values</li>
+<li><strong>words</strong> (<em>list</em><em> or </em><em>numpy.array</em>) – a list of strings</li>
+<li><strong>k</strong> (<em>int &gt; 0</em>) – number of indices to look up.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">list – length k list of (word, indicator value) tuples</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="cusplets.window_argmaxes">
+<code class="descclassname">cusplets.</code><code class="descname">window_argmaxes</code><span class="sig-paren">(</span><em>windows</em>, <em>data</em><span class="sig-paren">)</span><a class="headerlink" href="#cusplets.window_argmaxes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find argmax point in data within each window.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>windows</strong> (<em>a 2D list</em><em> or </em><em>2D numpy.ndarray</em>) – a list of indices indicating targeted windows in the data array</li>
+<li><strong>data</strong> (<em>a list</em><em> or </em><em>numpy.ndarray</em>) – a list of data points</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">numpy.array – max points for each window.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="cusplets.zero_norm">
+<code class="descclassname">cusplets.</code><code class="descname">zero_norm</code><span class="sig-paren">(</span><em>arr</em><span class="sig-paren">)</span><a class="headerlink" href="#cusplets.zero_norm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Normalizes an array so that it sums to zero</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>arr</strong> (<em>iterable</em>) – the array</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">numpy.ndarray – the zero-normalized array</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
+<li><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></li>
+<li><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></li>
+</ul>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="#">discrete-shocklet-transform</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="#">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, David Dewhurst, Thayer Alshaabi, Michael Arnold, Josh Minot.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/index.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
